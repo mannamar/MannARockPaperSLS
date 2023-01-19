@@ -7,7 +7,7 @@ let gameTxt = document.getElementById('gameTxt');
 let picksTxt = document.getElementById('picksTxt');
 let winTxt = document.getElementById('winTxt');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
-let cpuPick, userPick;
+let cpuPick, userPick, maxWins, thisRound;
 let userScore = 0;
 let cpuScore = 0;
 let cpuWinners;
@@ -33,14 +33,15 @@ function CreateImg(imgID='', imgScr='') {
 }
 
 // Function to trigger round options to show
-function ShowRounds() {
+function ShowRoundOptions() {
     ClearGame();
     gameTxt.textContent = 'How many rounds would you like to play?';
     let oneRndBtn = CreateBtn('oneRndBtn', '1');
-    oneRndBtn.addEventListener('click', ShowPictures);
+    oneRndBtn.addEventListener('click', StartGame.bind(null, 1));
     let fiveRndBtn = CreateBtn('fiveRndBtn', '5');
+    fiveRndBtn.addEventListener('click', StartGame.bind(null, 3));
     let sevenRndBtn = CreateBtn('sevenRndBtn', '7');
-    // console.log(oneRndBtn);
+    sevenRndBtn.addEventListener('click', StartGame.bind(null, 4));
     btnCont.append(oneRndBtn, fiveRndBtn, sevenRndBtn);
 }
 
@@ -64,6 +65,13 @@ function ShowPictures() {
     btnCont.append(rockImg, paperImg, scissorsImg, lizardImg, spockImg);
 
     UpdateScores();
+}
+
+function StartGame(num=1) {
+    thisRound = 0;
+    maxWins = num;
+    console.log('maxWins: ' + maxWins);
+    ShowPictures();
 }
 
 function UpdateScores() {
@@ -156,15 +164,25 @@ function PostRound() {
     btnCont.append(p1Img, p2Img);
     gameTxt.textContent = 'Game Over';
 
-    let playBtn = CreateBtn('playBtn', 'Play Again');
-    playBtn.addEventListener('click', ShowPictures);
-    let exitBtn = CreateBtn('exitBtn', 'Exit');
+    if (userScore === maxWins || cpuScore === maxWins) {
+        let playBtn = CreateBtn('playBtn', 'Play Again');
+        playBtn.addEventListener('click', PlayAgain);
+        let exitBtn = CreateBtn('exitBtn', 'Exit');
+        goBtnCont.append(playBtn, exitBtn);
+    } else {
+        let nextBtn = CreateBtn('playBtn', 'Next Round');
+        nextBtn.addEventListener('click', ShowPictures);
+        goBtnCont.append(nextBtn);
+    }
+}
 
-    goBtnCont.append(playBtn, exitBtn);
-
+function PlayAgain() {
+    userScore = 0;
+    cpuScore = 0;
+    ShowPictures();
 }
 
 // Called once to wake up API
 // CallApi(apiUrl);
 
-oneBtn.addEventListener('click', ShowRounds);
+oneBtn.addEventListener('click', ShowRoundOptions);
