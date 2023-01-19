@@ -73,16 +73,45 @@ function UpdateScores() {
 
 async function PickRock() {
     userPick = 'Rock'
+    cpuWinners = ['Paper', 'Spock'];
+    CheckWinner();
+}
+
+async function PickPaper() {
+    userPick = 'Paper';
+    cpuWinners = ['Scissors', 'Lizard'];
+    CheckWinner();
+}
+
+async function PickScissors() {
+    userPick = 'Scissors';
+    cpuWinners = ['Rock', 'Spock'];
+    CheckWinner();
+}
+
+async function PickLizard() {
+    userPick = 'Lizard';
+    cpuWinners = ['Rock', 'Scissors'];
+    CheckWinner();
+}
+
+async function PickSpock() {
+    userPick = 'Spock';
+    cpuWinners = ['Paper', 'Lizard'];
+    CheckWinner();
+}
+
+async function CheckWinner() {
     console.log('\nUser picks: ' + userPick);
     await CallApi(apiUrl);
     console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: Rock . . . . CPU picked: ${cpuPick}`;
-    if (cpuPick === 'Paper' || cpuPick === 'Spock') {
+    picksTxt.textContent = `You picked: ${userPick} . . . . CPU picked: ${cpuPick}`;
+    if (cpuWinners.includes(cpuPick)) {
         console.log('CPU wins!');
         winTxt.textContent = "CPU wins!";
         cpuScore++;
-    } else if (cpuPick === 'Rock') {
-        console.log('Draw!')
+    } else if (cpuPick === userPick) {
+        console.log('Draw!');
         winTxt.textContent = "Draw!";
     } else {
         console.log('You win!');
@@ -92,90 +121,6 @@ async function PickRock() {
     ClearRow();
     PostRound();
     UpdateScores();
-}
-
-async function PickPaper() {
-    userPick = 'Paper';
-    console.log('\nUser picks: ' + userPick);
-    await CallApi(apiUrl);
-    console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: Paper . . . . CPU picked: ${cpuPick}`;
-    if (cpuPick === 'Scissors' || cpuPick === 'Lizard') {
-        console.log('CPU wins!');
-        winTxt.textContent = "CPU wins!";
-    } else if (cpuPick === 'Paper') {
-        console.log('Draw!');
-        winTxt.textContent = "Draw!";
-    } else {
-        console.log('You win!');
-        winTxt.textContent = "You win!";
-    }
-    ClearRow();
-    PostRound();
-}
-
-async function PickScissors() {
-    userPick = 'Scissors';
-    console.log('\nUser picks: ' + userPick);
-    await CallApi(apiUrl);
-    console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: Scissors . . . . CPU picked: ${cpuPick}`;
-    if (cpuPick === 'Rock' || cpuPick === 'Spock') {
-        console.log('CPU wins!');
-        winTxt.textContent = "CPU wins!";
-    } else if (cpuPick === 'Scissors') {
-        console.log('Draw!');
-        winTxt.textContent = "Draw!";
-    } else {
-        console.log('You win!');
-        winTxt.textContent = "You win!";
-    }
-    ClearRow();
-    PostRound();
-}
-
-async function PickLizard() {
-    userPick = 'Lizard';
-    console.log('\nUser picks: ' + userPick);
-    await CallApi(apiUrl);
-    console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: Lizard . . . . CPU picked: ${cpuPick}`;
-    if (cpuPick === 'Rock' || cpuPick === 'Scissors') {
-        console.log('CPU wins!');
-        winTxt.textContent = "CPU wins!";
-    } else if (cpuPick === 'Lizard') {
-        console.log('Draw!');
-        winTxt.textContent = "Draw!";
-    } else {
-        console.log('You win!');
-        winTxt.textContent = "You win!";
-    }
-    ClearRow();
-    PostRound();
-}
-
-async function PickSpock() {
-    userPick = 'Spock';
-    console.log('\nUser picks: ' + userPick);
-    await CallApi(apiUrl);
-    console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: Spock . . . . CPU picked: ${cpuPick}`;
-    if (cpuPick === 'Paper' || cpuPick === 'Lizard') {
-        console.log('CPU wins!');
-        winTxt.textContent = "CPU wins!";
-    } else if (cpuPick === 'Spock') {
-        console.log('Draw!');
-        winTxt.textContent = "Draw!";
-    } else {
-        console.log('You win!');
-        winTxt.textContent = "You win!";
-    }
-    ClearRow();
-    PostRound();
-}
-
-function CheckWinner() {
-    
 }
 
 // Clears btnCont
