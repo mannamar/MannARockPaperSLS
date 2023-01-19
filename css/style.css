@@ -13,3 +13,7 @@ body {
 .gameImg {
     max-width: 15%;
 }
+
+#picksTxt {
+    white-space: pre-line;
+}

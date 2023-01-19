@@ -8,12 +8,13 @@ let gameTxt = document.getElementById('gameTxt');
 let picksTxt = document.getElementById('picksTxt');
 let winTxt = document.getElementById('winTxt');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
-let cpuPick, userPick, maxWins, thisRound, activePlayer;
+let cpuPick, userPick, maxWins, thisRound, activePlayer, playerName;
 let userScore = 0;
 let cpuScore = 0;
 let cpuWinners;
 let twoPlayer = false;
-
+let p1Name = 'Player 1';
+let p2Name = 'CPU';
 
 // Function to simplify button creation
 function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
@@ -50,7 +51,7 @@ function ShowRoundOptions() {
 
 // Sets initial round and max wins
 function StartGame(num=1) {
-    thisRound = 0;
+    thisRound = 1;
     maxWins = num;
     console.log('maxWins: ' + maxWins);
     ShowPictures();
@@ -60,7 +61,14 @@ function StartGame(num=1) {
 function ShowPictures() {
     console.log('ap: '+ activePlayer);
     ClearGame();
-    gameTxt.textContent = `Player ${activePlayer}! Pick your poison`;
+
+    if (activePlayer === 1) {
+        playerName = p1Name;
+    } else {
+        playerName = p2Name;
+    }
+
+    gameTxt.textContent = `Round ${thisRound}: ${playerName} pick your poison`;
 
     let rockImg = CreateImg('rockImg', './assets/rock.png');
     rockImg.addEventListener('click', PickRock);
@@ -79,8 +87,8 @@ function ShowPictures() {
 }
 
 function UpdateScores() {
-    score1.innerText = 'Your Score: ' + userScore;
-    score2.innerText = 'CPU Score: ' + cpuScore;
+    score1.innerText = `${p1Name}: ${userScore}/${maxWins}`;
+    score2.innerText = `${p2Name}: ${cpuScore}/${maxWins}`;
 }
 
 async function PickRock() {
@@ -158,18 +166,22 @@ async function CheckWinner() {
             await CallApi(apiUrl);
         }
         console.log('3. cpuPick pick check: ' + cpuPick);
-        picksTxt.textContent = `You picked: ${userPick} . . . . CPU picked: ${cpuPick}`;
+        picksTxt.textContent = `${p1Name} picked: ${userPick} .... ${p2Name} picked: ${cpuPick}`;
         if (cpuWinners.includes(cpuPick)) {
-            console.log('CPU wins!');
-            winTxt.textContent = "CPU wins!";
+            console.log('CPU/P2 wins!');
+            winTxt.textContent = `${p2Name} wins this round!`;
+            gameTxt.textContent = `Round ${thisRound} Complete`;
             cpuScore++;
+            thisRound++;
         } else if (cpuPick === userPick) {
             console.log('Draw!');
             winTxt.textContent = "Draw!";
         } else {
-            console.log('You win!');
-            winTxt.textContent = "You win!";
+            console.log('P1 wins!');
+            winTxt.textContent = `${p1Name} wins this round!`;
+            gameTxt.textContent = `Round ${thisRound} Complete`;
             userScore++;
+            thisRound++;
         }
         ClearRow();
         PostRound();
@@ -199,7 +211,7 @@ function PostRound() {
     let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/${cpuPick.toLowerCase()}.png`);
 
     btnCont.append(p1Img, p2Img);
-    gameTxt.textContent = 'Game Over';
+    // gameTxt.textContent = 'Game Over';
 
     if (userScore === maxWins || cpuScore === maxWins) {
         let playBtn = CreateBtn('playBtn', 'Play Again');
@@ -217,13 +229,13 @@ function PostRound() {
 function PlayAgain() {
     userScore = 0;
     cpuScore = 0;
+    thisRound = 1;
     ShowPictures();
 }
 
 function Exit() {
     userScore = 0;
     cpuScore = 0;
-    twoPlayer = false;
     ClearGame();
     gameTxt.innerText = 'Select A Game Mode';
     btnCont.append(oneBtn, twoBtn, rulesBtn);
@@ -232,11 +244,18 @@ function Exit() {
 // Called once to wake up API
 // CallApi(apiUrl);
 
-oneBtn.addEventListener('click', ShowRoundOptions);
+oneBtn.addEventListener('click', OnePlayerMode);
 
 twoBtn.addEventListener('click', TwoPlayerMode);
 
+function OnePlayerMode() {
+    twoPlayer = false;
+    p2Name = 'CPU';
+    ShowRoundOptions();
+}
+
 function TwoPlayerMode() {
     twoPlayer = true;
+    p2Name = 'Player 2'
     ShowRoundOptions();
 }
