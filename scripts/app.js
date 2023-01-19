@@ -8,10 +8,11 @@ let gameTxt = document.getElementById('gameTxt');
 let picksTxt = document.getElementById('picksTxt');
 let winTxt = document.getElementById('winTxt');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
-let cpuPick, userPick, maxWins, thisRound;
+let cpuPick, userPick, maxWins, thisRound, activePlayer;
 let userScore = 0;
 let cpuScore = 0;
 let cpuWinners;
+let twoPlayer = false;
 
 
 // Function to simplify button creation
@@ -35,6 +36,7 @@ function CreateImg(imgID='', imgScr='') {
 
 // Function to trigger round options to show
 function ShowRoundOptions() {
+    activePlayer = 1;
     ClearGame();
     gameTxt.textContent = 'How many rounds would you like to play?';
     let oneRndBtn = CreateBtn('oneRndBtn', '1');
@@ -46,11 +48,19 @@ function ShowRoundOptions() {
     btnCont.append(oneRndBtn, fiveRndBtn, sevenRndBtn);
 }
 
+// Sets initial round and max wins
+function StartGame(num=1) {
+    thisRound = 0;
+    maxWins = num;
+    console.log('maxWins: ' + maxWins);
+    ShowPictures();
+}
+
 // Function to trigger game icons to show
 function ShowPictures() {
-
+    console.log('ap: '+ activePlayer);
     ClearGame();
-    gameTxt.textContent = 'Pick your poison';
+    gameTxt.textContent = `Player ${activePlayer}! Pick your poison`;
 
     let rockImg = CreateImg('rockImg', './assets/rock.png');
     rockImg.addEventListener('click', PickRock);
@@ -68,46 +78,58 @@ function ShowPictures() {
     UpdateScores();
 }
 
-// Sets initial round and max wins
-function StartGame(num=1) {
-    thisRound = 0;
-    maxWins = num;
-    console.log('maxWins: ' + maxWins);
-    ShowPictures();
-}
-
 function UpdateScores() {
     score1.innerText = 'Your Score: ' + userScore;
     score2.innerText = 'CPU Score: ' + cpuScore;
 }
 
 async function PickRock() {
-    userPick = 'Rock'
-    cpuWinners = ['Paper', 'Spock'];
+    if (activePlayer === 1) {
+        userPick = 'Rock';
+        cpuWinners = ['Paper', 'Spock'];
+    } else {
+        cpuPick = 'Rock';
+    }
     CheckWinner();
 }
 
 async function PickPaper() {
-    userPick = 'Paper';
-    cpuWinners = ['Scissors', 'Lizard'];
+    if (activePlayer === 1) {
+        userPick = 'Paper';
+        cpuWinners = ['Scissors', 'Lizard'];
+    } else {
+        cpuPick = 'Paper';
+    }
     CheckWinner();
 }
 
 async function PickScissors() {
-    userPick = 'Scissors';
-    cpuWinners = ['Rock', 'Spock'];
+    if (activePlayer === 1) {
+        userPick = 'Scissors';
+        cpuWinners = ['Rock', 'Spock'];
+    } else {
+        cpuPick = 'Scissors';
+    }
     CheckWinner();
 }
 
 async function PickLizard() {
-    userPick = 'Lizard';
-    cpuWinners = ['Rock', 'Scissors'];
+    if (activePlayer === 1) {
+        userPick = 'Lizard';
+        cpuWinners = ['Rock', 'Scissors'];
+    } else {
+        cpuPick = 'Lizard';
+    }
     CheckWinner();
 }
 
 async function PickSpock() {
-    userPick = 'Spock';
-    cpuWinners = ['Paper', 'Lizard'];
+    if (activePlayer === 1) {
+        userPick = 'Spock';
+        cpuWinners = ['Paper', 'Lizard'];
+    } else {
+        cpuPick = 'Spock';
+    }
     CheckWinner();
 }
 
@@ -126,25 +148,34 @@ async function CallApi(url){
 
 // Compares user pick to cpu pick
 async function CheckWinner() {
-    console.log('\nUser picks: ' + userPick);
-    await CallApi(apiUrl);
-    console.log('3. cpuPick pick check: ' + cpuPick);
-    picksTxt.textContent = `You picked: ${userPick} . . . . CPU picked: ${cpuPick}`;
-    if (cpuWinners.includes(cpuPick)) {
-        console.log('CPU wins!');
-        winTxt.textContent = "CPU wins!";
-        cpuScore++;
-    } else if (cpuPick === userPick) {
-        console.log('Draw!');
-        winTxt.textContent = "Draw!";
+    if (twoPlayer && activePlayer === 1) {
+        console.log('Show pictures again - ap: ' + activePlayer);
+        activePlayer = 2;
+        ShowPictures();
     } else {
-        console.log('You win!');
-        winTxt.textContent = "You win!";
-        userScore++;
+        console.log('\nUser picks: ' + userPick);
+        if (!twoPlayer) {
+            await CallApi(apiUrl);
+        }
+        console.log('3. cpuPick pick check: ' + cpuPick);
+        picksTxt.textContent = `You picked: ${userPick} . . . . CPU picked: ${cpuPick}`;
+        if (cpuWinners.includes(cpuPick)) {
+            console.log('CPU wins!');
+            winTxt.textContent = "CPU wins!";
+            cpuScore++;
+        } else if (cpuPick === userPick) {
+            console.log('Draw!');
+            winTxt.textContent = "Draw!";
+        } else {
+            console.log('You win!');
+            winTxt.textContent = "You win!";
+            userScore++;
+        }
+        ClearRow();
+        PostRound();
+        UpdateScores();
+        activePlayer = 1;
     }
-    ClearRow();
-    PostRound();
-    UpdateScores();
 }
 
 // Clears btnCont
@@ -192,6 +223,7 @@ function PlayAgain() {
 function Exit() {
     userScore = 0;
     cpuScore = 0;
+    twoPlayer = false;
     ClearGame();
     gameTxt.innerText = 'Select A Game Mode';
     btnCont.append(oneBtn, twoBtn, rulesBtn);
@@ -201,3 +233,10 @@ function Exit() {
 // CallApi(apiUrl);
 
 oneBtn.addEventListener('click', ShowRoundOptions);
+
+twoBtn.addEventListener('click', TwoPlayerMode);
+
+function TwoPlayerMode() {
+    twoPlayer = true;
+    ShowRoundOptions();
+}
