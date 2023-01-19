@@ -1,3 +1,4 @@
+// Declare global variables
 let oneBtn = document.getElementById('oneBtn');
 let twoBtn = document.getElementById('twoBtn');
 let rulesBtn = document.getElementById('rulesBtn');
@@ -12,13 +13,14 @@ let userScore = 0;
 let cpuScore = 0;
 let cpuWinners;
 
+
 // Function to simplify button creation
 function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
     let btn = document.createElement('button');
     btn.id = btnID;
     btn.type = 'button';
     btn.className = 'btn ' + btnClass;
-    btn.textContent = btnText
+    btn.textContent = btnText;
     return btn;
 }
 
@@ -28,7 +30,6 @@ function CreateImg(imgID='', imgScr='') {
     img.id = imgID;
     img.src = imgScr;
     img.className = 'gameImg';
-    // img.width = 200;
     return img;
 }
 
@@ -67,6 +68,7 @@ function ShowPictures() {
     UpdateScores();
 }
 
+// Sets initial round and max wins
 function StartGame(num=1) {
     thisRound = 0;
     maxWins = num;
@@ -109,6 +111,20 @@ async function PickSpock() {
     CheckWinner();
 }
 
+// Calls API to set CPU pick
+async function CallApi(url){
+    await fetch(url).then(
+        response => response.text()
+    ).then(
+        data => {
+            console.log('1. data (in API call): ' + data);
+            cpuPick = data;
+            console.log('2. cpuPick (in API call): ' + cpuPick);
+        }
+    )
+}
+
+// Compares user pick to cpu pick
 async function CheckWinner() {
     console.log('\nUser picks: ' + userPick);
     await CallApi(apiUrl);
@@ -142,19 +158,9 @@ function ClearGame() {
     goBtnCont.innerHTML = '';
     picksTxt.innerText = '';
     winTxt.innerText = '';
-}
 
-// Sets cpuPick randomly
-async function CallApi(url){
-    await fetch(url).then(
-        response => response.text()
-    ).then(
-        data => {
-            console.log('1. data (in API call): ' + data);
-            cpuPick = data;
-            console.log('2. cpuPick (in API call): ' + cpuPick);
-        }
-    )
+    score1.innerText = '';
+    score2.innerText = '';
 }
 
 function PostRound() {
@@ -168,6 +174,7 @@ function PostRound() {
         let playBtn = CreateBtn('playBtn', 'Play Again');
         playBtn.addEventListener('click', PlayAgain);
         let exitBtn = CreateBtn('exitBtn', 'Exit');
+        exitBtn.addEventListener('click', Exit);
         goBtnCont.append(playBtn, exitBtn);
     } else {
         let nextBtn = CreateBtn('playBtn', 'Next Round');
@@ -180,6 +187,14 @@ function PlayAgain() {
     userScore = 0;
     cpuScore = 0;
     ShowPictures();
+}
+
+function Exit() {
+    userScore = 0;
+    cpuScore = 0;
+    ClearGame();
+    gameTxt.innerText = 'Select A Game Mode';
+    btnCont.append(oneBtn, twoBtn, rulesBtn);
 }
 
 // Called once to wake up API
