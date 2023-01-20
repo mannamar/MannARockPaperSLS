@@ -16,7 +16,7 @@ let cpuWinners;
 let twoPlayer = false;
 let p1Name = 'Player 1';
 let p2Name = 'CPU';
-let isDraw;
+let isDraw, winner;
 
 // Function to simplify button creation
 function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
@@ -28,7 +28,7 @@ function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
     return btn;
 }
 
-// Function simplify img creation
+// Function to simplify img creation
 function CreateImg(imgID='', imgScr='') {
     let img = document.createElement('img');
     img.id = imgID;
@@ -178,10 +178,12 @@ async function CheckWinner() {
             cpuScore++;
             thisRound++;
             isDraw = false;
+            winner = p2Name;
         } else if (cpuPick === userPick) {
             console.log('Draw!');
             winTxt.textContent = "Draw!";
             isDraw = true;
+            winner = 'draw';
         } else {
             console.log('P1 wins!');
             winTxt.textContent = `${p1Name}  wins  this  round!`;
@@ -189,6 +191,7 @@ async function CheckWinner() {
             userScore++;
             thisRound++;
             isDraw = false;
+            winner = p1Name;
         }
         ClearRow();
         PostRound();
@@ -216,6 +219,14 @@ function ClearGame() {
 function PostRound() {
     let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`);
     let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`);
+
+    if (winner === p1Name) {
+        p1Img.classList.add('pulse', 'winner');
+    } else if (winner === p2Name) {
+        p2Img.classList.add('pulse', 'winner');
+    } else {
+    }
+
     let vsTxt = document.createElement('p');
     vsTxt.innerText = 'vs';
 

@@ -69,7 +69,8 @@ body {
 .gameImg:hover {
     transform: scale(1.5);
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+    /* box-shadow: 0 5px 15px rgba(145, 92, 182, .4); */
+    filter: drop-shadow(10px 10px 5px rgba(0,0,0,0.5));
 }
 
 #gameTxt {
@@ -84,4 +85,8 @@ body {
 #winTxt {
     padding-top: 24px;
     padding-bottom: 24px;
+}
+
+.winner {
+    filter: drop-shadow(10px 10px 5px rgba(0,0,0,0.5));
 }
