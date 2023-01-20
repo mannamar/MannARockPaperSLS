@@ -101,3 +101,8 @@ body {
 .winner {
     filter: drop-shadow(10px 10px 5px rgba(0,0,0,0.5));
 }
+
+.rulesImg {
+    max-width: none;
+    max-height: 400px;
+}

@@ -271,6 +271,7 @@ function PlayAgain() {
 }
 
 function Exit() {
+    rulesCont.innerHTML='';
     userScore = 0;
     cpuScore = 0;
     ClearGame();
@@ -281,6 +282,7 @@ function Exit() {
     let twoBtn = CreateBtn('twoBtn', '2 Player');
     twoBtn.addEventListener('click', TwoPlayerMode);
     let rulesBtn = CreateBtn('rulesBtn', 'Rules');
+    rulesBtn.addEventListener('click', ShowRules);
     // rulesBtn.addEventListener('click', StartGame.bind(null, 4));
 
     btnCont.append(oneBtn, twoBtn, rulesBtn);
@@ -305,4 +307,16 @@ function TwoPlayerMode() {
     twoPlayer = true;
     p2Name = 'Player 2'
     ShowRoundOptions();
+}
+
+function ShowRules() {
+    gameTxt.textContent = 'Rules';
+    let backBtn = CreateBtn('backBtn', 'Back');
+    backBtn.addEventListener('click', Exit);
+    let rulesImg = CreateImg('rulesImg', './assets/rules.png', false);
+    rulesImg.classList.add('rulesImg');
+
+    ClearGame();
+    btnCont.append(backBtn);
+    rulesCont.append(rulesImg);
 }
