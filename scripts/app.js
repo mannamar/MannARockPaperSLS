@@ -8,6 +8,8 @@ let goBtnCont = document.getElementById('goBtnCont');
 let gameTxt = document.getElementById('gameTxt');
 let picksTxt = document.getElementById('picksTxt');
 let winTxt = document.getElementById('winTxt');
+let score1 = document.getElementById('score1');
+let score2 = document.getElementById('score2');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
 let cpuPick, userPick, maxWins, thisRound, activePlayer, playerName;
 let userScore = 0;
@@ -29,11 +31,14 @@ function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
 }
 
 // Function to simplify img creation
-function CreateImg(imgID='', imgScr='') {
+function CreateImg(imgID='', imgScr='', extraClass=true) {
     let img = document.createElement('img');
     img.id = imgID;
     img.src = imgScr;
     img.className = 'gameImg';
+    if (extraClass) {
+        img.classList.add('hoverable');
+    }
     return img;
 }
 
@@ -163,11 +168,13 @@ async function CheckWinner() {
         console.log('Show pictures again - ap: ' + activePlayer);
         activePlayer = 2;
         ShowPictures();
+        btnCont.classList.add('slideUp');
     } else {
         console.log('\nUser picks: ' + userPick);
         if (!twoPlayer) {
             await CallApi(apiUrl);
         }
+        btnCont.classList.remove('slideUp');
         console.log('3. cpuPick pick check: ' + cpuPick);
         // picksTxt.textContent = `${p1Name}  picked:  ${userPick}       ${p2Name}  picked:  ${cpuPick}`;
         picksTxt.textContent = `${userPick}   vs  ${cpuPick}`;
@@ -217,8 +224,8 @@ function ClearGame() {
 }
 
 function PostRound() {
-    let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`);
-    let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`);
+    let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`, false);
+    let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`, false);
 
     if (winner === p1Name) {
         p1Img.classList.add('pulse', 'winner');
