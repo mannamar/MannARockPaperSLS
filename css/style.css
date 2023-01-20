@@ -11,7 +11,7 @@ h1 {
     font-family: 'Pocket Monk', sans-serif;
     -webkit-text-stroke: 4px #3466AF;
     -webkit-text-fill-color: #FFCB05;
-    font-size: 100px;
+    font-size: 80px;
 }
 
 h2 {
@@ -105,4 +105,8 @@ body {
 .rulesImg {
     max-width: none;
     max-height: 400px;
+}
+
+#splashImg {
+    padding-top: 30px;
 }

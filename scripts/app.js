@@ -10,6 +10,7 @@ let picksTxt = document.getElementById('picksTxt');
 let winTxt = document.getElementById('winTxt');
 let score1 = document.getElementById('score1');
 let score2 = document.getElementById('score2');
+let splashImg = document.getElementById('splashImg');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
 let cpuPick, userPick, maxWins, thisRound, activePlayer, playerName;
 let userScore = 0;
@@ -271,6 +272,7 @@ function PlayAgain() {
 }
 
 function Exit() {
+    splashImg.remove();
     rulesCont.innerHTML='';
     userScore = 0;
     cpuScore = 0;
