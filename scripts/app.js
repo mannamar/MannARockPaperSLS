@@ -18,7 +18,7 @@ let cpuWinners;
 let twoPlayer = false;
 let p1Name = 'Player 1';
 let p2Name = 'CPU';
-let isDraw, winner;
+let isDraw, winner, action;
 
 // Function to simplify button creation
 function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
@@ -185,11 +185,13 @@ async function CheckWinner() {
             thisRound++;
             isDraw = false;
             winner = p2Name;
+            action = 'loses  to'
         } else if (cpuPick === userPick) {
             console.log('Draw!');
             winTxt.textContent = "Draw!";
             isDraw = true;
             winner = 'draw';
+            action = 'ties';
         } else {
             console.log('P1 wins!');
             winTxt.textContent = `${p1Name}  wins  this  round!`;
@@ -198,10 +200,11 @@ async function CheckWinner() {
             thisRound++;
             isDraw = false;
             winner = p1Name;
+            action = 'beats';
         }
         let userPickWord = (userPick === 'Spock') ? 'Brock' : userPick;
         let cpuPickWord = (cpuPick === 'Spock') ? 'Brock' : cpuPick;
-        picksTxt.textContent = `${userPickWord}   vs  ${cpuPickWord}`;
+        picksTxt.textContent = `${userPickWord}   ${action}  ${cpuPickWord}`;
         ClearRow();
         PostRound();
         UpdateScores();
