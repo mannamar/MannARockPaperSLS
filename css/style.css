@@ -1,9 +1,60 @@
+@import url('https://fonts.cdnfonts.com/css/pocket-monk');
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
+@import url('https://fonts.cdnfonts.com/css/arcade-classic');
+
+@font-face {
+    font-family: 'PokeGBText';
+    src: url('../assets/PokeGBText.ttf');
+}
+
+h1 {
+    font-family: 'Pocket Monk', sans-serif;
+    -webkit-text-stroke: 4px #3466AF;
+    -webkit-text-fill-color: #FFCB05;
+    font-size: 100px;
+}
+
+h2 {
+    font-family: 'Pocket Monk', sans-serif;
+    /* font-family: 'ArcadeClassic', sans-serif; */
+    -webkit-text-stroke: 2px black;
+    -webkit-text-fill-color: #FFCB05;
+    font-size: 45px;
+    white-space: pre-wrap;
+}
+
+#score1 {
+    -webkit-text-fill-color: green;
+}
+
+#score2 {
+    -webkit-text-fill-color: red;
+}
+
+h3 {
+    font-family: 'ArcadeClassic', sans-serif;
+    font-size: 45px;
+    white-space: pre-wrap;
+}
+
+.btn {
+    font-family: 'ArcadeClassic', sans-serif;
+    font-size: 30px;
+    width: 200px;
+    height: 70px;
+    /* background-color: #3466AF; */
+}
+
 body {
-    background-color: cornflowerblue;
+    /* background-color: black; */
+    background-image: url('../assets/bg2.png');
+    /* background-size: cover; */
+
 }
 
 #btnCont {
     max-width: 1200px;
+    padding-top: 48px;
 }
 
 #goBtnCont {
@@ -12,8 +63,25 @@ body {
 
 .gameImg {
     max-width: 15%;
+    transition: transform .1s; /* Animation */
+}
+
+.gameImg:hover {
+    transform: scale(1.5);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+#gameTxt {
+    padding-top: 48px;
 }
 
 #picksTxt {
-    white-space: pre-line;
+    /* white-space: pre-line; */
+    padding-top: 48px;
+}
+
+#winTxt {
+    padding-top: 24px;
+    padding-bottom: 24px;
 }
