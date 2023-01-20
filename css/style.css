@@ -47,9 +47,10 @@ h3 {
 
 body {
     /* background-color: black; */
-    background-image: url('../assets/bg2.png');
-    /* background-size: cover; */
-
+    background-image: url('../assets/bg.png');
+    object-fit: fill;
+    background-repeat: repeat-x;
+    background-color: #7BD434;
 }
 
 #btnCont {
