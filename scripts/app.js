@@ -16,6 +16,7 @@ let cpuWinners;
 let twoPlayer = false;
 let p1Name = 'Player 1';
 let p2Name = 'CPU';
+let isDraw;
 
 // Function to simplify button creation
 function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
@@ -176,15 +177,18 @@ async function CheckWinner() {
             gameTxt.textContent = `Round ${thisRound}`;
             cpuScore++;
             thisRound++;
+            isDraw = false;
         } else if (cpuPick === userPick) {
             console.log('Draw!');
             winTxt.textContent = "Draw!";
+            isDraw = true;
         } else {
             console.log('P1 wins!');
             winTxt.textContent = `${p1Name}  wins  this  round!`;
             gameTxt.textContent = `Round ${thisRound}`;
             userScore++;
             thisRound++;
+            isDraw = false;
         }
         ClearRow();
         PostRound();
@@ -224,8 +228,13 @@ function PostRound() {
         let exitBtn = CreateBtn('exitBtn', 'Home');
         exitBtn.addEventListener('click', Exit);
         goBtnCont.append(playBtn, exitBtn);
+        gameTxt.innerText = 'Game Over';
     } else {
-        let nextBtn = CreateBtn('playBtn', 'Next Round');
+        let nextBtnTxt = 'Next Round';
+        if (isDraw) {
+            nextBtnTxt = 'Redo';
+        }
+        let nextBtn = CreateBtn('playBtn', nextBtnTxt);
         nextBtn.addEventListener('click', ShowPictures);
         goBtnCont.append(nextBtn);
     }
