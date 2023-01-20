@@ -177,7 +177,6 @@ async function CheckWinner() {
         btnCont.classList.remove('slideUp');
         console.log('3. cpuPick pick check: ' + cpuPick);
         // picksTxt.textContent = `${p1Name}  picked:  ${userPick}       ${p2Name}  picked:  ${cpuPick}`;
-        picksTxt.textContent = `${userPick}   vs  ${cpuPick}`;
         if (cpuWinners.includes(cpuPick)) {
             console.log('CPU/P2 wins!');
             winTxt.textContent = `${p2Name}  wins  this  round!`;
@@ -200,6 +199,9 @@ async function CheckWinner() {
             isDraw = false;
             winner = p1Name;
         }
+        let userPickWord = (userPick === 'Spock') ? 'Brock' : userPick;
+        let cpuPickWord = (cpuPick === 'Spock') ? 'Brock' : cpuPick;
+        picksTxt.textContent = `${userPickWord}   vs  ${cpuPickWord}`;
         ClearRow();
         PostRound();
         UpdateScores();
