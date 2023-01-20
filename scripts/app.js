@@ -228,6 +228,9 @@ function ClearGame() {
 function PostRound() {
     let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`, false);
     let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`, false);
+    let vsImg = CreateImg('vsImg', './assets/vs3.png', false);
+    let blankImg1 = CreateImg('blankImg1', '', false);
+    let blankImg2 = CreateImg('blankImg2', '', false);
 
     if (winner === p1Name) {
         p1Img.classList.add('pulse', 'winner');
@@ -236,10 +239,7 @@ function PostRound() {
     } else {
     }
 
-    let vsTxt = document.createElement('p');
-    vsTxt.innerText = 'vs';
-
-    btnCont.append(p1Img, p2Img);
+    btnCont.append(blankImg1, p1Img, vsImg, p2Img, blankImg2);
     // gameTxt.textContent = 'Game Over';
 
     if (userScore === maxWins || cpuScore === maxWins) {
