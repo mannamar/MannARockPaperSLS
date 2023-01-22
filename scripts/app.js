@@ -1,9 +1,6 @@
 import {startConfetti, stopConfetti} from './confetti.js';
 
 // Declare global variables
-// let oneBtn = document.getElementById('oneBtn');
-// let twoBtn = document.getElementById('twoBtn');
-// let rulesBtn = document.getElementById('rulesBtn');
 let startBtn = document.getElementById('startBtn');
 let btnCont = document.getElementById('btnCont');
 let goBtnCont = document.getElementById('goBtnCont');
@@ -200,7 +197,6 @@ function ClearGame() {
     goBtnCont.innerHTML = '';
     picksTxt.innerText = '';
     winTxt.innerText = '';
-
     score1.innerText = '';
     score2.innerText = '';
 }
@@ -275,19 +271,9 @@ function Exit() {
     twoBtn.addEventListener('click', TwoPlayerMode);
     let rulesBtn = CreateBtn('rulesBtn', 'Rules');
     rulesBtn.addEventListener('click', ShowRules);
-    // rulesBtn.addEventListener('click', StartGame.bind(null, 4));
 
     btnCont.append(oneBtn, twoBtn, rulesBtn);
 }
-
-// Called once to wake up API
-CallApi(apiUrl);
-
-// oneBtn.addEventListener('click', OnePlayerMode);
-// twoBtn.addEventListener('click', TwoPlayerMode);
-startBtn.addEventListener('click', Exit);
-
-// Exit();
 
 function OnePlayerMode() {
     twoPlayer = false;
@@ -308,7 +294,7 @@ function ShowRules() {
     backBtn.addEventListener('click', Exit);
     let rulesImg = CreateImg('rulesImg', './assets/rules.png', false);
     rulesImg.classList.add('rulesImg');
-
+    
     ClearGame();
     btnCont.append(backBtn);
     rulesCont.append(rulesImg);
@@ -319,3 +305,8 @@ function TriggerCSS(element = pageCont, className = 'slideDown') {
     element.offsetWidth;
     element.classList.add(className);
 }
+
+// Called once to wake up API
+CallApi(apiUrl);
+
+startBtn.addEventListener('click', Exit);
