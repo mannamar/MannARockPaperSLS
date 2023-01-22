@@ -303,7 +303,7 @@ function TwoPlayerMode() {
 
 function ShowRules() {
     // TriggerCSS();
-    gameTxt.textContent = 'Rules';
+    gameTxt.textContent = 'Game Rules';
     let backBtn = CreateBtn('backBtn', 'Back');
     backBtn.addEventListener('click', Exit);
     let rulesImg = CreateImg('rulesImg', './assets/rules.png', false);
