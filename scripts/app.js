@@ -344,8 +344,8 @@ function ShowRules() {
     rulesCont.append(rulesImg);
 }
 
-function TriggerCSS(className = 'slideDown') {
-    pageCont.classList.remove(className);
-    pageCont.offsetWidth;
-    pageCont.classList.add(className);
+function TriggerCSS(element = pageCont, className = 'slideDown') {
+    element.classList.remove(className);
+    element.offsetWidth;
+    element.classList.add(className);
 }
