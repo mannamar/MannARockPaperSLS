@@ -48,6 +48,7 @@ function CreateImg(imgID='', imgScr='', extraClass=true) {
 
 // Function to trigger round options to show
 function ShowRoundOptions() {
+    TriggerCSS();
     activePlayer = 1;
     ClearGame();
     gameTxt.textContent = 'How many rounds?';
@@ -61,7 +62,8 @@ function ShowRoundOptions() {
 }
 
 // Sets initial round and max wins
-function StartGame(num=1) {
+function StartGame(num = 1) {
+    TriggerCSS();
     thisRound = 1;
     maxWins = num;
     console.log('maxWins: ' + maxWins);
@@ -70,6 +72,7 @@ function StartGame(num=1) {
 
 // Function to trigger game icons to show
 function ShowPictures() {
+    TriggerCSS();
     console.log('ap: '+ activePlayer);
     ClearGame();
 
@@ -172,13 +175,13 @@ async function CheckWinner() {
         console.log('Show pictures again - ap: ' + activePlayer);
         activePlayer = 2;
         ShowPictures();
-        btnCont.classList.add('slideUp');
+        // btnCont.classList.add('slideUp');
     } else {
         console.log('\nUser picks: ' + userPick);
         if (!twoPlayer) {
             await CallApi(apiUrl);
         }
-        btnCont.classList.remove('slideUp');
+        // btnCont.classList.remove('slideUp');
         console.log('3. cpuPick pick check: ' + cpuPick);
         // picksTxt.textContent = `${p1Name}  picked:  ${userPick}       ${p2Name}  picked:  ${cpuPick}`;
         if (cpuWinners.includes(cpuPick)) {
@@ -233,6 +236,7 @@ function ClearGame() {
 }
 
 function PostRound() {
+    TriggerCSS();
     let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`, false);
     let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`, false);
     let vsImg = CreateImg('vsImg', './assets/vs3.png', false);
@@ -279,6 +283,7 @@ function PostRound() {
 }
 
 function PlayAgain() {
+    TriggerCSS();
     userScore = 0;
     cpuScore = 0;
     thisRound = 1;
@@ -286,6 +291,7 @@ function PlayAgain() {
 }
 
 function Exit() {
+    TriggerCSS();
     splashImg.remove();
     rulesCont.innerHTML='';
     userScore = 0;
@@ -326,6 +332,7 @@ function TwoPlayerMode() {
 }
 
 function ShowRules() {
+    TriggerCSS();
     gameTxt.textContent = 'Rules';
     let backBtn = CreateBtn('backBtn', 'Back');
     backBtn.addEventListener('click', Exit);
@@ -335,4 +342,10 @@ function ShowRules() {
     ClearGame();
     btnCont.append(backBtn);
     rulesCont.append(rulesImg);
+}
+
+function TriggerCSS(className = 'slideDown') {
+    pageCont.classList.remove(className);
+    pageCont.offsetWidth;
+    pageCont.classList.add(className);
 }
