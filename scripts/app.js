@@ -1,3 +1,5 @@
+import {startConfetti, stopConfetti} from './confetti.js';
+
 // Declare global variables
 // let oneBtn = document.getElementById('oneBtn');
 // let twoBtn = document.getElementById('twoBtn');
@@ -253,6 +255,10 @@ function PostRound() {
         exitBtn.addEventListener('click', Exit);
         goBtnCont.append(playBtn, exitBtn);
         gameTxt.innerText = 'Game Over';
+        startConfetti();
+        setTimeout(() => {
+            stopConfetti();
+        }, 1000)
     } else {
         let nextBtnTxt = 'Next Round';
         if (isDraw) {

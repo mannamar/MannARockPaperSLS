@@ -111,3 +111,8 @@ body {
 #splashImg {
     padding-top: 30px;
 }
+
+#confetti-canvas {
+    position: absolute;
+    top: 0;
+}
