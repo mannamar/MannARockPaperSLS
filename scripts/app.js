@@ -45,7 +45,7 @@ function CreateImg(imgID='', imgScr='', extraClass=true) {
 
 // Function to trigger round options to show
 function ShowRoundOptions() {
-    // TriggerCSS();
+    TriggerCSS();
     activePlayer = 1;
     ClearGame();
     gameTxt.textContent = 'How many rounds?';
@@ -60,7 +60,7 @@ function ShowRoundOptions() {
 
 // Sets initial round and max wins
 function StartGame(num = 1) {
-    // TriggerCSS();
+    TriggerCSS();
     thisRound = 1;
     maxWins = num;
     console.log('maxWins: ' + maxWins);
@@ -69,7 +69,6 @@ function StartGame(num = 1) {
 
 // Function to trigger game icons to show
 function ShowPictures() {
-    // TriggerCSS();
     console.log('ap: '+ activePlayer);
     ClearGame();
 
@@ -142,13 +141,13 @@ async function CheckWinner() {
         console.log('Show pictures again - ap: ' + activePlayer);
         activePlayer = 2;
         ShowPictures();
-        btnCont.classList.add('slideUp');
+        btnCont.classList.add('slideDown');
     } else {
         console.log('\nUser picks: ' + userPick);
         if (!twoPlayer) {
             await CallApi(apiUrl);
         }
-        btnCont.classList.remove('slideUp');
+        btnCont.classList.remove('slideDown');
         console.log('3. cpuPick pick check: ' + cpuPick);
         // picksTxt.textContent = `${p1Name}  picked:  ${userPick}       ${p2Name}  picked:  ${cpuPick}`;
         if (cpuWinners.includes(cpuPick)) {
@@ -202,7 +201,7 @@ function ClearGame() {
 }
 
 function PostRound() {
-    // TriggerCSS();
+    TriggerCSS();
     let p1Img = CreateImg(`${userPick.toLowerCase()}`, `./assets/alt/${userPick.toLowerCase()}.png`, false);
     let p2Img = CreateImg(`${cpuPick.toLowerCase()}`, `./assets/alt/${cpuPick.toLowerCase()}.png`, false);
     let vsImg = CreateImg('vsImg', './assets/vs3.png', false);
@@ -221,7 +220,7 @@ function PostRound() {
     if (userScore === maxWins || cpuScore === maxWins) {
         let playBtn = CreateBtn('playBtn', 'Play Again');
         playBtn.addEventListener('click', PlayAgain);
-        let exitBtn = CreateBtn('exitBtn', 'Home');
+        let exitBtn = CreateBtn('exitBtn', 'Quit');
         exitBtn.addEventListener('click', Exit);
         goBtnCont.append(playBtn, exitBtn);
         gameTxt.innerText = 'Game Over';
@@ -232,9 +231,9 @@ function PostRound() {
                 stopConfetti();
             }, 1000)
         } else {
-            pageCont.classList.add('shake');
             setTimeout(() => {
-                pageCont.classList.remove('shake');
+                pageCont.classList.remove('slideDown');
+                TriggerCSS(pageCont, 'shake');
             }, 1000)
         }
     } else {
@@ -243,13 +242,18 @@ function PostRound() {
             nextBtnTxt = 'Redo';
         }
         let nextBtn = CreateBtn('playBtn', nextBtnTxt);
-        nextBtn.addEventListener('click', ShowPictures);
+        nextBtn.addEventListener('click', NextRound);
         goBtnCont.append(nextBtn);
     }
 }
 
+function NextRound() {
+    TriggerCSS();
+    ShowPictures();
+}
+
 function PlayAgain() {
-    // TriggerCSS();
+    TriggerCSS();
     userScore = 0;
     cpuScore = 0;
     thisRound = 1;
@@ -257,7 +261,7 @@ function PlayAgain() {
 }
 
 function Exit() {
-    // TriggerCSS();
+    TriggerCSS();
     splashImg.remove();
     rulesCont.innerHTML='';
     userScore = 0;
@@ -288,7 +292,7 @@ function TwoPlayerMode() {
 }
 
 function ShowRules() {
-    // TriggerCSS();
+    TriggerCSS();
     gameTxt.textContent = 'Game Rules';
     let backBtn = CreateBtn('backBtn', 'Back');
     backBtn.addEventListener('click', Exit);
