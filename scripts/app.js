@@ -246,7 +246,6 @@ function PostRound() {
     }
 
     btnCont.append(blankImg1, p1Img, vsImg, p2Img, blankImg2);
-    // gameTxt.textContent = 'Game Over';
 
     if (userScore === maxWins || cpuScore === maxWins) {
         let playBtn = CreateBtn('playBtn', 'Play Again');
@@ -255,10 +254,13 @@ function PostRound() {
         exitBtn.addEventListener('click', Exit);
         goBtnCont.append(playBtn, exitBtn);
         gameTxt.innerText = 'Game Over';
-        startConfetti();
-        setTimeout(() => {
-            stopConfetti();
-        }, 1000)
+        winTxt.textContent = `${winner}  wins  the  game!`;
+        if (twoPlayer === true || userScore === maxWins) {
+            startConfetti();
+            setTimeout(() => {
+                stopConfetti();
+            }, 1000)
+        }
     } else {
         let nextBtnTxt = 'Next Round';
         if (isDraw) {
