@@ -106,55 +106,25 @@ function UpdateScores() {
     score2.innerText = `${p2Name}:  ${cpuScore}/${maxWins}`;
 }
 
-async function PickRock() {
-    if (activePlayer === 1) {
-        userPick = 'Rock';
-        cpuWinners = ['Paper', 'Spock'];
-    } else {
-        cpuPick = 'Rock';
+// Helper function to create pickItem functions
+function PickItem(item, losesTo1, losesTo2) {
+    return async function() {
+        if (activePlayer === 1) {
+            userPick = item;
+            cpuWinners = [losesTo1, losesTo2];
+        } else {
+            cpuPick = item;
+        }
+        CheckWinner();
     }
-    CheckWinner();
 }
 
-async function PickPaper() {
-    if (activePlayer === 1) {
-        userPick = 'Paper';
-        cpuWinners = ['Scissors', 'Lizard'];
-    } else {
-        cpuPick = 'Paper';
-    }
-    CheckWinner();
-}
-
-async function PickScissors() {
-    if (activePlayer === 1) {
-        userPick = 'Scissors';
-        cpuWinners = ['Rock', 'Spock'];
-    } else {
-        cpuPick = 'Scissors';
-    }
-    CheckWinner();
-}
-
-async function PickLizard() {
-    if (activePlayer === 1) {
-        userPick = 'Lizard';
-        cpuWinners = ['Rock', 'Scissors'];
-    } else {
-        cpuPick = 'Lizard';
-    }
-    CheckWinner();
-}
-
-async function PickSpock() {
-    if (activePlayer === 1) {
-        userPick = 'Spock';
-        cpuWinners = ['Paper', 'Lizard'];
-    } else {
-        cpuPick = 'Spock';
-    }
-    CheckWinner();
-}
+// Pick item functions
+let PickRock = PickItem('Rock', 'Paper', 'Spock');
+let PickPaper = PickItem('Paper', 'Scissors', 'Lizard');
+let PickScissors = PickItem('Scissors', 'Rock', 'Spock');
+let PickLizard = PickItem('Lizard', 'Rock', 'Scissors');
+let PickSpock = PickItem('Spock', 'Paper', 'Lizard');
 
 // Calls API to set CPU pick
 async function CallApi(url){
