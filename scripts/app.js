@@ -13,6 +13,7 @@ let winTxt = document.getElementById('winTxt');
 let score1 = document.getElementById('score1');
 let score2 = document.getElementById('score2');
 let splashImg = document.getElementById('splashImg');
+let pageCont = document.getElementById('pageCont');
 let apiUrl = 'https://scottsrpsls.azurewebsites.net/api/RockPaperScissors/GetRandomOption';
 let cpuPick, userPick, maxWins, thisRound, activePlayer, playerName;
 let userScore = 0;
@@ -259,6 +260,11 @@ function PostRound() {
             startConfetti();
             setTimeout(() => {
                 stopConfetti();
+            }, 1000)
+        } else {
+            pageCont.classList.add('shake');
+            setTimeout(() => {
+                pageCont.classList.remove('shake');
             }, 1000)
         }
     } else {
