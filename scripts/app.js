@@ -297,7 +297,7 @@ function Exit() {
 }
 
 // Called once to wake up API
-// CallApi(apiUrl);
+CallApi(apiUrl);
 
 // oneBtn.addEventListener('click', OnePlayerMode);
 // twoBtn.addEventListener('click', TwoPlayerMode);
