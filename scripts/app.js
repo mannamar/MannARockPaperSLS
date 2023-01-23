@@ -22,23 +22,33 @@ let p2Name = 'CPU';
 let isDraw, winner, action;
 
 // Function to simplify button creation
-function CreateBtn(btnID='', btnText='Primary', btnClass='btn-primary') {
+function CreateBtn(btnID='', btnText='Primary', functionName=null, param1=null) {
     let btn = document.createElement('button');
     btn.id = btnID;
     btn.type = 'button';
-    btn.className = 'btn ' + btnClass;
+    btn.className = 'btn btn-primary';
     btn.textContent = btnText;
+    if (functionName != null) {
+        if (param1 != null) {
+            btn.addEventListener('click', functionName.bind(null, param1));
+        } else {
+            btn.addEventListener('click', functionName);
+        }
+    }
     return btn;
 }
 
 // Function to simplify img creation
-function CreateImg(imgID='', imgScr='', extraClass=true) {
+function CreateImg(imgID='', imgScr='', extraClass=true, functionName=null) {
     let img = document.createElement('img');
     img.id = imgID;
     img.src = imgScr;
     img.className = 'gameImg';
     if (extraClass) {
         img.classList.add('hoverable');
+    }
+    if (functionName != null) {
+        img.addEventListener('click', functionName);
     }
     return img;
 }
@@ -49,12 +59,9 @@ function ShowRoundOptions() {
     activePlayer = 1;
     ClearGame();
     gameTxt.textContent = 'How many rounds?';
-    let oneRndBtn = CreateBtn('oneRndBtn', '1');
-    oneRndBtn.addEventListener('click', StartGame.bind(null, 1));
-    let fiveRndBtn = CreateBtn('fiveRndBtn', '5');
-    fiveRndBtn.addEventListener('click', StartGame.bind(null, 3));
-    let sevenRndBtn = CreateBtn('sevenRndBtn', '7');
-    sevenRndBtn.addEventListener('click', StartGame.bind(null, 4));
+    let oneRndBtn = CreateBtn('oneRndBtn', '1', StartGame, 1);
+    let fiveRndBtn = CreateBtn('fiveRndBtn', '5', StartGame, 3);
+    let sevenRndBtn = CreateBtn('sevenRndBtn', '7', StartGame, 4);
     btnCont.append(oneRndBtn, fiveRndBtn, sevenRndBtn);
 }
 
@@ -81,16 +88,11 @@ function ShowPictures() {
     gameTxt.textContent = `Round ${thisRound}`;
     winTxt.textContent = `${playerName}  pick  your  champion`;
 
-    let rockImg = CreateImg('rockImg', './assets/alt/rock.png');
-    rockImg.addEventListener('click', PickRock);
-    let paperImg = CreateImg('paperImg', './assets/alt/paper.png');
-    paperImg.addEventListener('click', PickPaper);
-    let scissorsImg = CreateImg('scissorsImg', './assets/alt/scissors.png');
-    scissorsImg.addEventListener('click', PickScissors);
-    let lizardImg = CreateImg('lizardImg', './assets/alt/lizard.png');
-    lizardImg.addEventListener('click', PickLizard);
-    let spockImg = CreateImg('spockImg', './assets/alt/spock.png');
-    spockImg.addEventListener('click', PickSpock);
+    let rockImg = CreateImg('rockImg', './assets/alt/rock.png', true, PickRock);
+    let paperImg = CreateImg('paperImg', './assets/alt/paper.png', true, PickPaper);
+    let scissorsImg = CreateImg('scissorsImg', './assets/alt/scissors.png', true, PickScissors);
+    let lizardImg = CreateImg('lizardImg', './assets/alt/lizard.png', true, PickLizard);
+    let spockImg = CreateImg('spockImg', './assets/alt/spock.png', true, PickSpock);
 
     btnCont.append(rockImg, paperImg, scissorsImg, lizardImg, spockImg);
 
@@ -149,7 +151,6 @@ async function CheckWinner() {
         }
         btnCont.classList.remove('slideDown');
         console.log('3. cpuPick pick check: ' + cpuPick);
-        // picksTxt.textContent = `${p1Name}  picked:  ${userPick}       ${p2Name}  picked:  ${cpuPick}`;
         if (cpuWinners.includes(cpuPick)) {
             console.log('CPU/P2 wins!');
             winTxt.textContent = `${p2Name}  wins  this  round!`;
@@ -218,10 +219,8 @@ function PostRound() {
     btnCont.append(blankImg1, p1Img, vsImg, p2Img, blankImg2);
 
     if (userScore === maxWins || cpuScore === maxWins) {
-        let playBtn = CreateBtn('playBtn', 'Play Again');
-        playBtn.addEventListener('click', PlayAgain);
-        let exitBtn = CreateBtn('exitBtn', 'Quit');
-        exitBtn.addEventListener('click', Exit);
+        let playBtn = CreateBtn('playBtn', 'Play Again', PlayAgain);
+        let exitBtn = CreateBtn('exitBtn', 'Quit', Exit);
         goBtnCont.append(playBtn, exitBtn);
         gameTxt.innerText = 'Game Over';
         winTxt.textContent = `${winner}  wins  the  game!`;
@@ -241,8 +240,7 @@ function PostRound() {
         if (isDraw) {
             nextBtnTxt = 'Redo';
         }
-        let nextBtn = CreateBtn('playBtn', nextBtnTxt);
-        nextBtn.addEventListener('click', NextRound);
+        let nextBtn = CreateBtn('playBtn', nextBtnTxt, NextRound);
         goBtnCont.append(nextBtn);
     }
 }
@@ -269,12 +267,9 @@ function Exit() {
     ClearGame();
     gameTxt.innerText = 'Select A Game Mode';
 
-    let oneBtn = CreateBtn('oneBtn', '1 Player');
-    oneBtn.addEventListener('click', OnePlayerMode);
-    let twoBtn = CreateBtn('twoBtn', '2 Player');
-    twoBtn.addEventListener('click', TwoPlayerMode);
-    let rulesBtn = CreateBtn('rulesBtn', 'Rules');
-    rulesBtn.addEventListener('click', ShowRules);
+    let oneBtn = CreateBtn('oneBtn', '1 Player', OnePlayerMode);
+    let twoBtn = CreateBtn('twoBtn', '2 Player', TwoPlayerMode);
+    let rulesBtn = CreateBtn('rulesBtn', 'Rules', ShowRules);
 
     btnCont.append(oneBtn, twoBtn, rulesBtn);
 }
@@ -294,8 +289,7 @@ function TwoPlayerMode() {
 function ShowRules() {
     TriggerCSS();
     gameTxt.textContent = 'Game Rules';
-    let backBtn = CreateBtn('backBtn', 'Back');
-    backBtn.addEventListener('click', Exit);
+    let backBtn = CreateBtn('backBtn', 'Back', Exit);
     let rulesImg = CreateImg('rulesImg', './assets/rules.png', false);
     rulesImg.classList.add('rulesImg');
     
